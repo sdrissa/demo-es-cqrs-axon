@@ -1,7 +1,9 @@
 package com.demo.es_axon_demo.queries.handlers;
 
+import com.demo.es_axon_demo.queries.dto.GetAccountOperations;
 import com.demo.es_axon_demo.queries.dto.GetAllAccounts;
 import com.demo.es_axon_demo.queries.entities.Account;
+import com.demo.es_axon_demo.queries.entities.AccountOperation;
 import com.demo.es_axon_demo.queries.repositories.AccountOperationRepository;
 import com.demo.es_axon_demo.queries.repositories.AccountRepository;
 import org.axonframework.queryhandling.QueryHandler;
@@ -24,5 +26,11 @@ public class AountQueryHandler {
     @QueryHandler
     public List<Account> on(GetAllAccounts allAccounts){
         return accountRepository.findAll();
+    }
+
+
+    @QueryHandler
+    public List<AccountOperation> on(GetAccountOperations accountOperations){
+        return accountOperationRepository.findByAccount(accountOperations.getAccountId());
     }
 }

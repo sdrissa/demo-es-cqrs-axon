@@ -1,6 +1,5 @@
 package com.demo.es_axon_demo.queries.handlers;
 
-import com.demo.es_axon_demo.commands.commands.AccountCreditCommand;
 import com.demo.es_axon_demo.enums.OperationType;
 import com.demo.es_axon_demo.events.*;
 import com.demo.es_axon_demo.queries.entities.Account;
