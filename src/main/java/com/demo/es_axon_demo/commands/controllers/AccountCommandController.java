@@ -4,15 +4,12 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
+import com.demo.es_axon_demo.commands.commands.AccountUpdateCommand;
+import com.demo.es_axon_demo.commands.dto.AccountUpdateDto;
 import org.axonframework.commandhandling.gateway.CommandGateway;
 import org.axonframework.eventsourcing.eventstore.EventStore;
 import org.axonframework.messaging.interceptors.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.demo.es_axon_demo.commands.commands.AccountCreateCommand;
 import com.demo.es_axon_demo.commands.commands.AccountCreditCommand;
@@ -73,6 +70,16 @@ public class AccountCommandController {
             creditAccountDto.accountId(),
             creditAccountDto.amount()
         ));
+
+    }
+
+    @PutMapping("/updateStatus")
+    public CompletableFuture<String> updateStatus(AccountUpdateDto request){
+
+       return commandGateway.send(AccountUpdateCommand.builder()
+                        .accountId(request.accountId())
+                        .status(request.status())
+                .build());
 
     }
 }

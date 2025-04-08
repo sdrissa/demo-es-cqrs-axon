@@ -1,5 +1,7 @@
 package com.demo.es_axon_demo.commands.aggregates;
 
+import com.demo.es_axon_demo.commands.commands.AccountUpdateCommand;
+import com.demo.es_axon_demo.events.*;
 import org.axonframework.commandhandling.CommandHandler;
 import org.axonframework.eventsourcing.EventSourcingHandler;
 import org.axonframework.modelling.command.AggregateIdentifier;
@@ -10,10 +12,6 @@ import com.demo.es_axon_demo.commands.commands.AccountCreateCommand;
 import com.demo.es_axon_demo.commands.commands.AccountCreditCommand;
 import com.demo.es_axon_demo.commands.commands.AccountDebitCommand;
 import com.demo.es_axon_demo.enums.AccountStatus;
-import com.demo.es_axon_demo.events.AccountActivatedEvent;
-import com.demo.es_axon_demo.events.AccountCreatedEvent;
-import com.demo.es_axon_demo.events.AccountCreditedEvent;
-import com.demo.es_axon_demo.events.AccountDebitedEvent;
 
 import lombok.Getter;
 
@@ -68,6 +66,15 @@ public class AccountAggregate {
         ));
     }
 
+    @CommandHandler
+    public void updateStatus(AccountUpdateCommand accountUpdateCommand){
+
+        AggregateLifecycle.apply(AccountUpdatedEvent.builder()
+                        .accountId(accountUpdateCommand.getAccountId())
+                        .status(accountUpdateCommand.getStatus())
+                .build());
+    }
+
 
     @EventSourcingHandler
     public void on(AccountCreatedEvent accountCreatedEvent){
@@ -94,5 +101,11 @@ public class AccountAggregate {
         this.initialBalance=+accountCreditedEvent.getAmount();
         this.accountId=accountCreditedEvent.getAccountId();
     }
-    
+
+    @EventSourcingHandler
+    public void on(AccountUpdatedEvent accountUpdatedEvent){
+        this.accountId=accountUpdatedEvent.getAccountId();
+        this.status=accountUpdatedEvent.getStatus();
+    }
+
 }
