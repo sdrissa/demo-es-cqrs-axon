@@ -2,6 +2,7 @@ package com.demo.es_axon_demo.queries.handlers;
 
 import com.demo.es_axon_demo.queries.dto.GetAccountOperations;
 import com.demo.es_axon_demo.queries.dto.GetAllAccounts;
+import com.demo.es_axon_demo.queries.dto.WatchEventQuery;
 import com.demo.es_axon_demo.queries.entities.Account;
 import com.demo.es_axon_demo.queries.entities.AccountOperation;
 import com.demo.es_axon_demo.queries.repositories.AccountOperationRepository;
@@ -31,6 +32,11 @@ public class AountQueryHandler {
 
     @QueryHandler
     public List<AccountOperation> on(GetAccountOperations accountOperations){
-        return accountOperationRepository.findByAccount(accountOperations.getAccountId());
+        return accountOperationRepository.findByAccount_AccountId(accountOperations.getAccountId());
+    }
+
+    @QueryHandler
+    public AccountOperation on(WatchEventQuery watchEventQuery){
+        return AccountOperation.builder().build();
     }
 }

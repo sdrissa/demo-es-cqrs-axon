@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface AccountOperationRepository extends JpaRepository<AccountOperation, Long> {
 
-    List<AccountOperation> findByAccount(String accountId);
+    List<AccountOperation> findByAccount_AccountId(String accountId);
 }
